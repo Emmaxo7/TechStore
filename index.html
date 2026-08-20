@@ -1,146 +1,750 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechStore</title>
 
-<link rel="stylesheet" href="styles.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TechStore - Sistema Administrativo</title>
+
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<header>
-    <h1>💻 TechStore</h1>
+<!-- ================= HEADER ================= -->
 
-    <nav>
-        <a href="#inicio">Inicio</a>
-        <a href="#productos">Productos</a>
-        <a href="#servicios">Servicios</a>
-        <a href="#contacto">Contacto</a>
-    </nav>
+<header>
+
+    <div class="logo">
+        💻 TechStore
+    </div>
+
+    <button class="menu-btn" onclick="toggleSidebar()">
+        ☰
+    </button>
+
 </header>
 
-<section id="inicio" class="hero">
 
-<h2>La mejor tienda de cómputo</h2>
+<!-- ================= SIDEBAR ================= -->
 
-<p>
-Encuentra laptops, computadoras gamer, monitores y accesorios
-con la mejor calidad.
-</p>
+<aside id="sidebar">
 
-<button onclick="mensaje()">Ver ofertas</button>
+    <div class="sidebar-title">
+        PANEL ADMINISTRATIVO
+    </div>
+
+    <button onclick="mostrarSeccion('dashboard')">
+        📊 Dashboard
+    </button>
+
+    <button onclick="mostrarSeccion('inventario')">
+        📦 Inventario
+    </button>
+
+    <button onclick="mostrarSeccion('ventas')">
+        🛒 Ventas
+    </button>
+
+    <button onclick="mostrarSeccion('clientes')">
+        👥 Clientes
+    </button>
+
+    <button onclick="mostrarSeccion('proveedores')">
+        🚚 Proveedores
+    </button>
+
+    <button onclick="mostrarSeccion('reportes')">
+        📈 Reportes
+    </button>
+
+</aside>
+
+
+<!-- ================= CONTENIDO ================= -->
+
+<main id="contenido">
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard" class="seccion activa">
+
+    <div class="titulo">
+
+        <h1>Dashboard</h1>
+
+        <p>
+            Resumen general de TechStore
+        </p>
+
+    </div>
+
+
+    <div class="estadisticas">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">💰</div>
+
+            <div>
+
+                <h3>Ventas</h3>
+
+                <strong id="totalVentas">
+                    $0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">📦</div>
+
+            <div>
+
+                <h3>Productos</h3>
+
+                <strong id="totalProductos">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">👥</div>
+
+            <div>
+
+                <h3>Clientes</h3>
+
+                <strong id="totalClientes">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card alerta">
+
+            <div class="stat-icon">⚠️</div>
+
+            <div>
+
+                <h3>Stock bajo</h3>
+
+                <strong id="stockBajo">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="panel">
+
+            <h2>Ventas recientes</h2>
+
+            <div id="ventasRecientes"></div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2>Productos con stock bajo</h2>
+
+            <div id="productosStockBajo"></div>
+
+        </div>
+
+    </div>
 
 </section>
 
-<section id="productos">
 
-<h2>Productos</h2>
 
-<div class="productos">
+<!-- ================= INVENTARIO ================= -->
 
-<div class="card">
+<section id="inventario" class="seccion">
 
-<img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=700">
+    <div class="titulo">
 
-<h3>Laptop Gamer</h3>
+        <h1>📦 Inventario</h1>
 
-<p>$22,999 MXN</p>
+        <p>
+            Administración de productos
+        </p>
 
-</div>
+    </div>
 
-<div class="card">
 
-<img src="https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?w=700">
+    <div class="acciones">
 
-<h3>Monitor 27"</h3>
+        <button class="btn primary"
+                onclick="abrirProducto()">
 
-<p>$4,899 MXN</p>
+            ➕ Nuevo producto
 
-</div>
+        </button>
 
-<div class="card">
+        <input
+            type="text"
+            id="buscarProducto"
+            placeholder="🔎 Buscar producto..."
+            onkeyup="mostrarProductos()"
+        >
 
-<img src="https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=700">
+    </div>
 
-<h3>Teclado Mecánico RGB</h3>
 
-<p>$1,299 MXN</p>
+    <div class="tabla-container">
 
-</div>
+        <table>
 
-<div class="card">
+            <thead>
 
-<img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=700">
+                <tr>
 
-<h3>Mouse Gamer</h3>
+                    <th>Código</th>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Compra</th>
+                    <th>Venta</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
 
-<p>$899 MXN</p>
+                </tr>
 
-</div>
+            </thead>
 
-<div class="card">
+            <tbody id="tablaProductos"></tbody>
 
-<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=700">
+        </table>
 
-<h3>Tarjeta Gráfica RTX</h3>
-
-<p>$13,999 MXN</p>
-
-</div>
-
-<div class="card">
-
-<img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=700">
-
-<h3>PC Gamer</h3>
-
-<p>$28,499 MXN</p>
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
-<section id="servicios">
 
-<h2>Servicios</h2>
 
-<ul>
+<!-- ================= VENTAS ================= -->
 
-<li>✔ Reparación de computadoras</li>
+<section id="ventas" class="seccion">
 
-<li>✔ Formateo e instalación de Windows</li>
+    <div class="titulo">
 
-<li>✔ Ensamble de PC Gamer</li>
+        <h1>🛒 Ventas</h1>
 
-<li>✔ Venta de componentes</li>
+        <p>
+            Registrar una nueva venta
+        </p>
 
-<li>✔ Limpieza preventiva</li>
+    </div>
 
-</ul>
+
+    <div class="venta-layout">
+
+
+        <div class="panel">
+
+            <h2>Nueva venta</h2>
+
+
+            <label>Cliente</label>
+
+            <select id="ventaCliente"></select>
+
+
+            <label>Producto</label>
+
+            <select id="ventaProducto"></select>
+
+
+            <label>Cantidad</label>
+
+            <input
+                type="number"
+                id="ventaCantidad"
+                value="1"
+                min="1"
+            >
+
+
+            <button
+                class="btn primary"
+                onclick="agregarProductoVenta()">
+
+                ➕ Agregar producto
+
+            </button>
+
+
+            <div id="productosVenta"></div>
+
+
+            <div class="venta-total">
+
+                Total:
+
+                <strong id="ventaTotal">
+                    $0
+                </strong>
+
+            </div>
+
+
+            <label>Método de pago</label>
+
+            <select id="metodoPago">
+
+                <option>💵 Efectivo</option>
+                <option>💳 Tarjeta</option>
+                <option>🏦 Transferencia</option>
+
+            </select>
+
+
+            <button
+                class="btn success"
+                onclick="registrarVenta()">
+
+                💰 Registrar venta
+
+            </button>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2>Historial de ventas</h2>
+
+            <div id="historialVentas"></div>
+
+        </div>
+
+    </div>
 
 </section>
 
-<section id="contacto">
 
-<h2>Contacto</h2>
 
-<p>📍 Ciudad de México</p>
+<!-- ================= CLIENTES ================= -->
 
-<p>📞 55 1234 5678</p>
+<section id="clientes" class="seccion">
 
-<p>✉ contacto@techstore.com</p>
+    <div class="titulo">
+
+        <h1>👥 Clientes</h1>
+
+        <p>
+            Administración de clientes
+        </p>
+
+    </div>
+
+
+    <button
+        class="btn primary"
+        onclick="abrirCliente()">
+
+        ➕ Nuevo cliente
+
+    </button>
+
+
+    <div class="tabla-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tablaClientes"></tbody>
+
+        </table>
+
+    </div>
 
 </section>
 
-<footer>
 
-<p>© 2026 TechStore | Todos los derechos reservados.</p>
 
-</footer>
+<!-- ================= PROVEEDORES ================= -->
+
+<section id="proveedores" class="seccion">
+
+    <div class="titulo">
+
+        <h1>🚚 Proveedores</h1>
+
+        <p>
+            Administración de proveedores
+        </p>
+
+    </div>
+
+
+    <button
+        class="btn primary"
+        onclick="abrirProveedor()">
+
+        ➕ Nuevo proveedor
+
+    </button>
+
+
+    <div class="tabla-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Empresa</th>
+                    <th>Contacto</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Acciones</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tablaProveedores"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= REPORTES ================= -->
+
+<section id="reportes" class="seccion">
+
+    <div class="titulo">
+
+        <h1>📈 Reportes</h1>
+
+        <p>
+            Información y estadísticas de la tienda
+        </p>
+
+    </div>
+
+
+    <div class="reportes-grid">
+
+        <div class="reporte-card">
+
+            <h3>💰 Ventas totales</h3>
+
+            <strong id="reporteVentas">
+                $0
+            </strong>
+
+        </div>
+
+
+        <div class="reporte-card">
+
+            <h3>📦 Valor del inventario</h3>
+
+            <strong id="valorInventario">
+                $0
+            </strong>
+
+        </div>
+
+
+        <div class="reporte-card">
+
+            <h3>🏆 Producto más vendido</h3>
+
+            <strong id="productoMasVendido">
+                Sin ventas
+            </strong>
+
+        </div>
+
+
+        <div class="reporte-card">
+
+            <h3>👥 Clientes</h3>
+
+            <strong id="reporteClientes">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h2>Resumen de inventario</h2>
+
+        <div id="reporteInventario"></div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+
+<!-- ================= MODAL PRODUCTO ================= -->
+
+<div id="modalProducto" class="modal">
+
+    <div class="modal-content">
+
+        <button class="cerrar"
+                onclick="cerrarModal('modalProducto')">
+            ✕
+        </button>
+
+        <h2>📦 Producto</h2>
+
+
+        <input
+            type="hidden"
+            id="productoId"
+        >
+
+
+        <label>Código</label>
+
+        <input
+            type="text"
+            id="productoCodigo"
+            placeholder="Ej. LAP001"
+        >
+
+
+        <label>Nombre</label>
+
+        <input
+            type="text"
+            id="productoNombre"
+            placeholder="Nombre del producto"
+        >
+
+
+        <label>Categoría</label>
+
+        <select id="productoCategoria">
+
+            <option>Laptops</option>
+            <option>Monitores</option>
+            <option>Accesorios</option>
+            <option>Componentes</option>
+            <option>PC Gamer</option>
+            <option>Periféricos</option>
+
+        </select>
+
+
+        <label>Precio de compra</label>
+
+        <input
+            type="number"
+            id="productoCompra"
+            placeholder="0"
+        >
+
+
+        <label>Precio de venta</label>
+
+        <input
+            type="number"
+            id="productoVenta"
+            placeholder="0"
+        >
+
+
+        <label>Stock</label>
+
+        <input
+            type="number"
+            id="productoStock"
+            placeholder="0"
+        >
+
+
+        <label>Stock mínimo</label>
+
+        <input
+            type="number"
+            id="productoMinimo"
+            placeholder="5"
+            value="5"
+        >
+
+
+        <button
+            class="btn primary"
+            onclick="guardarProducto()">
+
+            💾 Guardar producto
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= MODAL CLIENTE ================= -->
+
+<div id="modalCliente" class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="cerrar"
+            onclick="cerrarModal('modalCliente')">
+
+            ✕
+
+        </button>
+
+        <h2>👥 Nuevo cliente</h2>
+
+
+        <input
+            type="text"
+            id="clienteNombre"
+            placeholder="Nombre completo"
+        >
+
+
+        <input
+            type="tel"
+            id="clienteTelefono"
+            placeholder="Teléfono"
+        >
+
+
+        <input
+            type="email"
+            id="clienteCorreo"
+            placeholder="Correo"
+        >
+
+
+        <input
+            type="text"
+            id="clienteDireccion"
+            placeholder="Dirección"
+        >
+
+
+        <button
+            class="btn primary"
+            onclick="guardarCliente()">
+
+            💾 Guardar cliente
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= MODAL PROVEEDOR ================= -->
+
+<div id="modalProveedor" class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="cerrar"
+            onclick="cerrarModal('modalProveedor')">
+
+            ✕
+
+        </button>
+
+        <h2>🚚 Nuevo proveedor</h2>
+
+
+        <input
+            type="text"
+            id="proveedorEmpresa"
+            placeholder="Empresa"
+        >
+
+
+        <input
+            type="text"
+            id="proveedorContacto"
+            placeholder="Persona de contacto"
+        >
+
+
+        <input
+            type="tel"
+            id="proveedorTelefono"
+            placeholder="Teléfono"
+        >
+
+
+        <input
+            type="email"
+            id="proveedorCorreo"
+            placeholder="Correo"
+        >
+
+
+        <button
+            class="btn primary"
+            onclick="guardarProveedor()">
+
+            💾 Guardar proveedor
+
+        </button>
+
+    </div>
+
+</div>
+
 
 <script src="script.js"></script>
 
